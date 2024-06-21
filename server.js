@@ -3,7 +3,7 @@ import http from "http";
 const PORT = 3000;
 
 const rotas = {
-  "/": "Trilhas Solidárias",
+  "/": "Trilhas Solidarias",
   "/login": "Entrei na rota login",
   "/cadastro": "Entrei na rota cadastro"
 };
