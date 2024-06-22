@@ -1,32 +1,20 @@
 import express from "express";
+import conectaNaDatabase from "./config/dbConnect.js";
+import routes from "./routes/index.js";
+
+const conexao = await conectaNaDatabase();
+
+conexao.on("error", (erro) => {
+    console.error("Erro de conexão", erro);
+});
+
+conexao.once("open", () => {
+    console.log("Conexão com o banco feita com sucesso");
+});
 
 const app = express();
-app.use(express.json());
+routes(app);
 
-const usuarios = [
-    {
-        id: 1,
-        nome: "Charles Xavier"
-    },
-    {
-        id: 2,
-        nome: "Erik Magnus"
-    }
-];
-
-function buscaUsuario(id) {
-    return usuarios.findIndex(usuario => {
-        return usuario.id === Number(id);
-    });
-}
-
-app.get("/", (req, res) => {
-    res.status(200).send("Trilhas Solidarias.js");
-});
-
-app.get("/usuarios", (req, res) => {
-    res.status(200).json(usuarios);
-});
 
 app.get("/usuarios/:id", (req, res) => {
     const index = buscaUsuario(req.params.id);
@@ -44,12 +32,11 @@ app.post("/usuarios", (req, res) => {
     if (idExiste) {
         res.status(400).send("ID de usuario já existe");
     } else {
-        usuarios.push(novoUsuario);
+        usuario.push(novoUsuario);
         res.status(201).send("Usuario cadastrado com sucesso");
     }
 });
 
-// Método PUT para atualizar um usuário existente
 app.put("/usuarios/:id", (req, res) => {
     const id = req.params.id;
     const index = buscaUsuario(id);
@@ -61,7 +48,6 @@ app.put("/usuarios/:id", (req, res) => {
     }
 });
 
-// Método DELETE para remover um usuário existente
 app.delete("/usuarios/:id", (req, res) => {
     const id = req.params.id;
     const index = buscaUsuario(id);
@@ -73,7 +59,6 @@ app.delete("/usuarios/:id", (req, res) => {
     }
 });
 
-// Método PATCH para atualização parcial de um usuário existente
 app.patch("/usuarios/:id", (req, res) => {
     const id = req.params.id;
     const index = buscaUsuario(id);
@@ -84,7 +69,4 @@ app.patch("/usuarios/:id", (req, res) => {
         res.status(404).send("Usuario não encontrado");
     }
 });
-
 export default app;
-
-//mongodb+srv://trilhassolidariasinova:<password>@cluster0.fixz9kx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
