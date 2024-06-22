@@ -10,6 +10,15 @@ class UsuarioController{
             res.status(500).send("Erro ao buscar usuários");
         }
     }
+    static async listarUsuarioPorId (req, res) {
+        try {
+          const id = req.params.id;
+          const usuarioEncontrado = await usuario.findById(id);
+          res.status(200).json(usuarioEncontrado);
+        } catch (erro) {
+          res.status(500).json({ message: `${erro.message} - falha na requisição do usuario` });
+        }
+      };
 
     static async cadastrarUsuario(req,res){
         try{
