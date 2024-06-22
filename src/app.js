@@ -86,3 +86,5 @@ app.patch("/usuarios/:id", (req, res) => {
 });
 
 export default app;
+
+//mongodb+srv://trilhassolidariasinova:<password>@cluster0.fixz9kx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0

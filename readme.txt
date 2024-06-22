@@ -1,0 +1,3 @@
+- instalar o nodemon como dependência
+- instalar o express como framework para requisições
+- utilizar o postman para testar rotas de crud
